@@ -4,6 +4,7 @@ USE SIGEVAC;
 CREATE TABLE CLIENTES 
 	(cedCliente		   varchar(10) NOT NULL,
 	 nombreCliente	   varchar(30) NOT NULL,
+	 apellidoCliente   varchar(30) NOT NULL,
 	 direccionCliente  varchar(50) NOT NULL,
 	 telefonoCliente   varchar(10),
 	 PRIMARY KEY(cedCliente));
