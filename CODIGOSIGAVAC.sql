@@ -215,7 +215,12 @@ Print 'No se permite eliminar informacion'
 Rollback transaction
 end
 
-
+Create Trigger No_Insertar
+on Cortina For insert
+as begin
+Print 'No se permite insertar'
+Rollback transaction
+end
 
 
       
