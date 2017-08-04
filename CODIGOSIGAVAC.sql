@@ -208,7 +208,12 @@ INSERT INTO Proveedor VALUES (02, 'IVAN TEX','SUCRE 404 Y CHILE ESQ.', '320925',
 INSERT INTO Proveedor VALUES (03, 'NEYMATEX','Km 7 1/2 Vía Daule Lotización Santa Cecilia ','3712311', 'ventas@neymatex.com'); 
 INSERT INTO Proveedor VALUES (04, 'ECUACOTTON','kM 16 1/2 Via Daule','43701990', 'ecuacotton.com'); 	
 
-
+Create Trigger No_Eliminar
+on Cortina For Delete
+as begin
+Print 'No se permite eliminar informacion'
+Rollback transaction
+end
 
 
 
