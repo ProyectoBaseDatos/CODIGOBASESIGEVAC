@@ -371,22 +371,6 @@ GRANT insert, select ON sigevac.venta TO 'hernanro'@'localhost';
 GRANT select ON sigevac.formapago TO 'hernanro'@'localhost';
 
 
-GRANT delete, insert, select, update ON sigevac.colorcortina TO 'romanbel'@'localhost' with grant option;
-GRANT delete, insert, select, update On sigevac.compra TO 'romanbel'@'localhost' with grant option;
-GRANT delete, insert, select, update ON sigevac.cortina TO 'romanbel'@'localhost' with grant option;
-GRANT delete, insert, select, update ON sigevac.detallefactura TO 'romanbel'@'localhost' with grant option;
-GRANT delete, insert, select, update ON sigevac.empleado TO 'romanbel'@'localhost' with grant option;
-GRANT delete, insert, select, update ON sigevac.factura TO 'romanbel'@'localhost' with grant option;
-GRANT delete, insert, select, update ON sigevac.pago TO 'romanbel'@'localhost' with grant option;
-GRANT delete, insert, select, update ON sigevac.proveedor TO 'romanbel'@'localhost' with grant option;
-GRANT delete, insert, select, update ON sigevac.registroingreso TO 'romanbel'@'localhost' with grant option;
-GRANT delete, insert, select, update ON sigevac.stock TO 'romanbel'@'localhost' with grant option;
-GRANT delete, insert, select, update ON sigevac.tipocortina TO 'romanbel'@'localhost' with grant option;
-GRANT delete, insert, select, update ON sigevac.venta TO 'romanbel'@'localhost' with grant option;
-GRANT delete, insert, select, update ON sigevac.formapago TO 'romanbel'@'localhost' with grant option;
-
-
-
 
 create view CATALOGO_PRODUCTOS
 as 
