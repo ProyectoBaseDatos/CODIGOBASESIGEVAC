@@ -1,7 +1,7 @@
 CREATE DATABASE SIGEVAC;
 USE SIGEVAC;
 
-CREATE TABLE CLIENTES 
+CREATE TABLE Cliente 
 	(cedCliente		   varchar(10) NOT NULL,
 	 nombreCliente	   varchar(30) NOT NULL,
      apellidoCliente   varchar(30) NOT NULL,
@@ -15,8 +15,8 @@ CREATE TABLE FormaPago
 	 tipoPago       	varchar(15) NOT NULL,
 	 PRIMARY KEY (idFormaPago));
      
-CREATE TABLE PAGO 
-	(idPAGO		            INTEGER NOT NULL,
+CREATE TABLE Pago 
+	(idPago	            INTEGER NOT NULL,
 	 FormaPago_idFormaPago 	INTEGER NOT NULL,
 	 PRIMARY KEY (idPago),
 	  FOREIGN KEY (FormaPago_idFormaPago) REFERENCES FormaPago (idFormaPago)); 
@@ -30,11 +30,8 @@ CREATE TABLE TipoCortina
 	(idColorCortina		   INTEGER NOT NULL,
 	 nombreColor	       VARCHAR(10) NOT NULL,
 	 PRIMARY KEY(idColorCortina)); 
-     
-     
-
-      
-CREATE TABLE CORTINA
+       
+CREATE TABLE Cortina
 	(idCortina	                INTEGER NOT NULL,
 	 descripcion	            VARCHAR(45) NOT NULL,
 	 TipoCortina_idTipoTela	    INTEGER NOT NULL,
@@ -47,7 +44,7 @@ CREATE TABLE CORTINA
   CREATE TABLE Empleado
 	(idEmpleado	                INTEGER NOT NULL,
 	 nombreEmpleado	            VARCHAR(50) NOT NULL,
-     apellidoEMPLEADO           VARCHAR(50) NOT NULL,
+     apellidoEmpleado           VARCHAR(50) NOT NULL,
 	 direccionEmpleado          VARCHAR(50) NOT NULL,
      telefonoEmpleado           VARCHAR(10) NOT NULL,
 	 rolEmpleado	            VARCHAR(15) NOT NULL,
@@ -56,10 +53,10 @@ CREATE TABLE CORTINA
 	CREATE TABLE Alquiler
 	(idAlquiler                 INTEGER NOT NULL,
 	 fechaAlquiler              DATE,
-	 CORTINA_IdCortina          INTEGER NOT NULL,
+	 Cortina_IdCortina          INTEGER NOT NULL,
      Empleado_IdEmpleado        INTEGER NOT NULL,
 	 PRIMARY KEY (idAlquiler),
-     FOREIGN KEY (CORTINA_IdCortina) REFERENCES CORTINA (IdCortina),
+     FOREIGN KEY (Cortina_IdCortina) REFERENCES Cortina (IdCortina),
 	 FOREIGN KEY (Empleado_IdEmpleado) REFERENCES Empleado (idEmpleado)); 
      
      CREATE TABLE Venta
@@ -69,7 +66,7 @@ CREATE TABLE CORTINA
 	 PRIMARY KEY (idVenta),
 	 FOREIGN KEY (Empleado_IdEmpleado) REFERENCES Empleado (idEmpleado)); 
      
-CREATE TABLE FACTURA 
+CREATE TABLE Factura 
 	(idFactura		     INTEGER NOT NULL,
      Empleado_IdEmpleado INTEGER NOT NULL,
      Alquiler_IdAlquiler INTEGER,
@@ -77,25 +74,22 @@ CREATE TABLE FACTURA
      Venta_idVenta       INTEGER,
 	 Cliente_cedCliente  VARCHAR(10) NOT NUll,
 	 PRIMARY KEY (idFactura),
-	 FOREIGN KEY (Cliente_cedCliente) REFERENCES CLIENTES (cedCliente),
-	 FOREIGN KEY (Pago_idPago)  REFERENCES PAGO (idPAGO),
+	 FOREIGN KEY (Cliente_cedCliente) REFERENCES Cliente (cedCliente),
+	 FOREIGN KEY (Pago_idPago)  REFERENCES PAGO (idPago),
      FOREIGN KEY (Empleado_IdEmpleado) REFERENCES Empleado (idEmpleado),
 	 FOREIGN KEY (Venta_idVenta) REFERENCES Venta (idVenta),
      FOREIGN KEY (Alquiler_IdAlquiler)  REFERENCES Alquiler (IdAlquiler));
-
-
-
-     
+  
 CREATE TABLE DetalleFactura 
 	(idDetalleFctura		INTEGER NOT NULL,
 	 cantidad	            INTEGER NOT NULL,
 	 precioVenta			FLOAT NOT NULL,
 	 iva			        FLOAT NOT NULL,
-     FACTURA_idFactura      INTEGER NOT null,
-     CORTINA_IdCortina      INTEGER NOT NULL,
+     Factura_idFactura      INTEGER NOT null,
+     Cortina_IdCortina      INTEGER NOT NULL,
 	 PRIMARY KEY (idDetalleFctura),
-	 FOREIGN KEY (CORTINA_IdCortina) REFERENCES CORTINA (IdCortina),
-	 FOREIGN KEY (FACTURA_idFactura) REFERENCES FACTURA (idFactura));
+	 FOREIGN KEY (Cortina_IdCortina) REFERENCES Cortina (IdCortina),
+	 FOREIGN KEY (Factura_idFactura) REFERENCES Factura (idFactura));
      
 CREATE TABLE Proveedor 
 	(idProveedor	           INTEGER NOT NULL,
@@ -119,37 +113,37 @@ CREATE TABLE RegistroIngreso
 CREATE TABLE Stock 
 	(idStock	                       INTEGER NOT NULL,
 	 cantidad	                       INTEGER NOT NULL,
-     CORTINA_idCortina                 INTEGER NOT NULL,
+     Cortina_idCortina                 INTEGER NOT NULL,
      RegistroIngreso_IdRegistroIngreso INTEGER NOT NULL,
 	 PRIMARY KEY(idStock),
 	 FOREIGN KEY (RegistroIngreso_IdRegistroIngreso)  REFERENCES RegistroIngreso (idRegistroIngreso),    
-	 FOREIGN KEY (CORTINA_idCortina)  REFERENCES CORTINA (idCortina));
+	 FOREIGN KEY (Cortina_idCortina)  REFERENCES Cortina (idCortina));
 
 CREATE TABLE Compra
 	(idCompra	                INTEGER NOT NULL,
 	 cantidad	                INTEGER NOT NULL,
 	 precio	                    FLOAT NOT NULL,
 	 RegistroIngreso_IdRegistroIngreso INTEGER NOT NULL,
-     CORTINA_idCortina          INTEGER NOT NULL,
+     Cortina_idCortina          INTEGER NOT NULL,
 	 Empleado_idEmpleado        INTEGER NOT NULL,
 	 PRIMARY KEY (idCompra),
-     FOREIGN KEY (CORTINA_idCortina)  REFERENCES CORTINA (idCortina),
+     FOREIGN KEY (Cortina_idCortina)  REFERENCES Cortina (idCortina),
 	 FOREIGN KEY (RegistroIngreso_IdRegistroIngreso)  REFERENCES RegistroIngreso (idRegistroIngreso),    
      FOREIGN KEY (Empleado_idEmpleado) REFERENCES Empleado (idEmpleado));
 
 
-INSERT INTO CLIENTES VALUES ('0987372715', 'ANA MARIA', 'PITA VERA', 'Av. Carlos Luis Plaza Dañín y Francisco Boloña', '298345','Ana@hotmail.com');
-INSERT INTO CLIENTES VALUES ('0987372815', 'MARIA JOSE','VERA SAAD','Av. Victor Emilio Estrada y Av. Las Monjas', '367849','majo@hotmail.com');
-INSERT INTO CLIENTES VALUES ('0990672715', 'MARIA VERONICA','PEREZ RODRIGUES','Benjamín Carrión s/n y Av. Felipe Pezo', '450949','vero@hotmail.com');
-INSERT INTO CLIENTES VALUES ('0990612093', 'DIANA MARTHA','MERA VERA','Av. Juan Tanca Marengo y Av. Constitución', '476362','dayamar@gmail.com');
-INSERT INTO CLIENTES VALUES ('0983727093', 'KAREN JENIFFER','PARRA PIZA','Av. 25 de Julio y Ernesto Albán', '098374','karen40@hotmail.com');
-INSERT INTO CLIENTES VALUES ('0900493923', 'DEBORA JOSELYN','PARRALES CASTILLO','Urbanización Porto Fino Vía a la Costa', '947281','dejose@hotmail.com');
-INSERT INTO CLIENTES VALUES ('0938371394', 'MISHELL KATE','ARBOLEDA BAQUE','Av. Daule Km. 9.5 diagonal al Fuerte Huancavilca ', '893721','mikakate@hotmail.com');
-INSERT INTO CLIENTES VALUES ('0992819373', 'JONATHAN HERNAN','ROBLES BAQUE','Av. Francisco de Orellana y Av. Guillermo Pareja ', '954123','jhonny@hotmail.com');
-INSERT INTO CLIENTES VALUES ('0999293932', 'CRISTOPHER JEAN','TOMALA ORDOÑES',' Av. San Jorge y Av. Carlos Luis Plaza Dañín', '727172','crisjean@gmail.com');
-INSERT INTO CLIENTES VALUES ('0909382182', 'BRUS DANIEL','AVILES MENDEZ',' Manuel Galecio N328 y Ximena', '034616','danny@hotmail.com');
-INSERT INTO CLIENTES VALUES ('0991920203', 'ANGEL SAUL','SUAREZ RODRIGUEZ','Benjamín Rosales y Américas', '475064','angel_saul@hotmail.com');
-INSERT INTO CLIENTES VALUES ('0909392818', 'JESUS MIGUEL',' VILLAMAR REYES',' Km 2.5 Vía a Samborondón', '293829','jesus_miguel@gmail.com');
+INSERT INTO CLIENTE VALUES ('0987372715', 'ANA MARIA', 'PITA VERA', 'Av. Carlos Luis Plaza DaÃ±Ã­n y Francisco BoloÃ±a', '298345','Ana@hotmail.com');
+INSERT INTO CLIENTE VALUES ('0987372815', 'MARIA JOSE','VERA SAAD','Av. Victor Emilio Estrada y Av. Las Monjas', '367849','majo@hotmail.com');
+INSERT INTO CLIENTE VALUES ('0990672715', 'MARIA VERONICA','PEREZ RODRIGUES','BenjamÃ­n CarriÃ³n s/n y Av. Felipe Pezo', '450949','vero@hotmail.com');
+INSERT INTO CLIENTE VALUES ('0990612093', 'DIANA MARTHA','MERA VERA','Av. Juan Tanca Marengo y Av. ConstituciÃ³n', '476362','dayamar@gmail.com');
+INSERT INTO CLIENTE VALUES ('0983727093', 'KAREN JENIFFER','PARRA PIZA','Av. 25 de Julio y Ernesto AlbÃ¡n', '098374','karen40@hotmail.com');
+INSERT INTO CLIENTE VALUES ('0900493923', 'DEBORA JOSELYN','PARRALES CASTILLO','UrbanizaciÃ³n Porto Fino VÃ­a a la Costa', '947281','dejose@hotmail.com');
+INSERT INTO CLIENTE VALUES ('0938371394', 'MISHELL KATE','ARBOLEDA BAQUE','Av. Daule Km. 9.5 diagonal al Fuerte Huancavilca ', '893721','mikakate@hotmail.com');
+INSERT INTO CLIENTE VALUES ('0992819373', 'JONATHAN HERNAN','ROBLES BAQUE','Av. Francisco de Orellana y Av. Guillermo Pareja ', '954123','jhonny@hotmail.com');
+INSERT INTO CLIENTE VALUES ('0999293932', 'CRISTOPHER JEAN','TOMALA ORDOÃ‘ES',' Av. San Jorge y Av. Carlos Luis Plaza DaÃ±Ã­n', '727172','crisjean@gmail.com');
+INSERT INTO CLIENTE VALUES ('0909382182', 'BRUS DANIEL','AVILES MENDEZ',' Manuel Galecio N328 y Ximena', '034616','danny@hotmail.com');
+INSERT INTO CLIENTE VALUES ('0991920203', 'ANGEL SAUL','SUAREZ RODRIGUEZ','BenjamÃ­n Rosales y AmÃ©ricas', '475064','angel_saul@hotmail.com');
+INSERT INTO CLIENTE VALUES ('0909392818', 'JESUS MIGUEL',' VILLAMAR REYES',' Km 2.5 VÃ­a a SamborondÃ³n', '293829','jesus_miguel@gmail.com');
 
 INSERT INTO FormaPago VALUES (1, 'CONTADO'); 
 INSERT INTO FormaPago VALUES (2, 'CREDITO'); 
@@ -201,9 +195,6 @@ INSERT INTO Empleado VALUES (0006, 'JEMIMA MAYRA','SOLIS ROCHA','SUBURBIO OESTE'
 INSERT INTO Empleado VALUES (0007, 'RONALD DIEGO','CASTRO BRAVO','ENTRADA DE LA 8','0904732717','DESPACHDOR');
 INSERT INTO Empleado VALUES (0008, 'MIGUEL TOMMY','REYES MOSQUERA','ISLA TRINITARIA','0989043280','BODEGUERO');
 
-
-
-
 INSERT INTO Alquiler VALUES (22001,'2017-07-04',6001,0001);
 INSERT INTO Alquiler VALUES (22002,'2017-07-10',6002,0002);
 INSERT INTO Alquiler VALUES (22003,'2017-07-14',6003,0003);
@@ -220,7 +211,6 @@ INSERT INTO Venta VALUES (11005,'2017-08-02',0001);
 INSERT INTO Venta VALUES (11006,'2017-08-04',0005);
 INSERT INTO Venta VALUES (11007,'2017-08-05',0004);
 
-
 INSERT INTO FACTURA VALUES (75001,0001,null,901,11001,'0987372715');
 INSERT INTO FACTURA VALUES (75002,0002,22002,902,NULL,'0938371394');
 INSERT INTO FACTURA VALUES (75003,0003,null,903,11003,'0909392818');
@@ -229,13 +219,10 @@ INSERT INTO FACTURA VALUES (75005,0005,NULL,905,11005,'0990672715');
 INSERT INTO FACTURA VALUES (75006,0001,22006,906,null,'0990672715'); 
 INSERT INTO FACTURA VALUES (75007,0004,null,907,11007,'0999293932'); 
 
-
-
 INSERT INTO Proveedor VALUES (01, 'TEX MODA','JOSE MARTIN','DELGADO ROMERO','Alemania y Suiza Esq.', '2521605', 'servicioalcliente@texmodaecuador.com'); 
 INSERT INTO Proveedor VALUES (02, 'IVAN TEX','CATALINA STEPHANIE','ANZULES CORDOVA','SUCRE 404 Y CHILE ESQ.', '320925', 'servicioalcliente@ivantex.com');    
-INSERT INTO Proveedor VALUES (03, 'NEYMATEX','RICARDO RAFAEL','BAQUE PERALTA','Km 7 1/2 Vía Daule Lotización Santa Cecilia ','3712311', 'ventas@neymatex.com'); 
-INSERT INTO Proveedor VALUES (04, 'ECUACOTTON','GUSTAVO ROMMEL','CEDEÑO MOSQUERA','kM 16 1/2 Via Daule','43701990', 'ecuacotton.com'); 
-
+INSERT INTO Proveedor VALUES (03, 'NEYMATEX','RICARDO RAFAEL','BAQUE PERALTA','Km 7 1/2 VÃ­a Daule LotizaciÃ³n Santa Cecilia ','3712311', 'ventas@neymatex.com'); 
+INSERT INTO Proveedor VALUES (04, 'ECUACOTTON','GUSTAVO ROMMEL','CEDEÃ‘O MOSQUERA','kM 16 1/2 Via Daule','43701990', 'ecuacotton.com'); 
 
 INSERT INTO DetalleFactura VALUES (330001,5,20.00,0.12,75001,6001);
 INSERT INTO DetalleFactura VALUES (330002,10,10.00,0.12,75002,6002);
@@ -244,7 +231,6 @@ INSERT INTO DetalleFactura VALUES (330004,3,20.00,0.12,75004,6004);
 INSERT INTO DetalleFactura VALUES (330005,7,10.00,0.12,75005,6002);
 INSERT INTO DetalleFactura VALUES (330006,10,20.00,0.12,75006,6004);
 INSERT INTO DetalleFactura VALUES (330007,20,15.00,0.12,75007,6003);
-
 
 INSERT INTO RegistroIngreso VALUES (440001,'2017-04-01',50,01);
 INSERT INTO RegistroIngreso VALUES (440002,'2017-04-02',70,02);
@@ -258,7 +244,6 @@ INSERT INTO RegistroIngreso VALUES (440009,'2017-07-10',10,01);
 INSERT INTO RegistroIngreso VALUES (440010,'2017-07-15',30,02);
 INSERT INTO RegistroIngreso VALUES (440011,'2017-07-25',50,03);
 INSERT INTO RegistroIngreso VALUES (440012,'2017-08-03',70,04);
-
 
 INSERT INTO Stock VALUES (550001,50,6001,440001);
 INSERT INTO Stock VALUES (550002,70,6002,440002);
@@ -286,13 +271,74 @@ INSERT INTO Compra VALUES (880010,20,10.00,440010,6002,0005);
 INSERT INTO Compra VALUES (880011,40,15.00,440011,6003,0002);
 INSERT INTO Compra VALUES (880012,50,10.00,440012,6004,0005);
 
+CREATE VIEW CATALOGO_PRODUCTOS
+AS 
+SELECT C.descripcion AS DESCRIPCION, nombreColor AS COLOR, materialCortina AS MATERIAL
+FROM Cortina C, ColorCortina CO, TipoCortina T
+ORDER BY DESCRIPCION;
+
+CREATE VIEW DETALLES_VENTAS
+AS
+SELECT IdCortina, descripcion, nombreColor, materialCortina, COUNT(CORTINA_IdCortina) AS TOTAL_VENTAS
+FROM Cortina , ColorCortina , TipoCortina , detallefactura  
+WHERE CORTINA_IdCortina=IdCortina AND TipoCortina_IdTipoTela=IdTipoTela AND ColorCortina_ColorCortina=IdColorCortina
+GROUP BY IdCortina;
+
+
+CREATE VIEW TOTAL_STOCK
+AS
+SELECT idCortina AS CODIGO_CORTINA, nombreColor as COLOR, materialCortina AS TIPO , s.cantidad AS TOTAL_EN_STOCK
+FROM ColorCortina , TipoCortina , stock s, cortina c 
+WHERE s.CORTINA_IdCortina=IdCortina AND TipoCortina_IdTipoTela=IdTipoTela AND ColorCortina_ColorCortina=IdColorCortina
+GROUP BY idCortina;
+
+DELIMITER /
+CREATE PROCEDURE ventasPorFecha(IN fechaInicio DATE, IN fechaFinal DATE, OUT ventaTotal FLOAT)
+BEGIN
+  SELECT SUM(d.cantidad*d.precioVenta) INTO ventaTotal
+  FROM venta v, factura f, detallefactura d
+  WHERE v.Factura_idFactura =f.idFactura AND f.idFactura=d.FACTURA_idFactura AND v.fechaVenta BETWEEN fechaInicio AND fechaFinal;
+  END; / 
+DELIMITER ;
+
+CREATE TABLE registroActualizacion 
+	(idRegistro	                       INTEGER NOT NULL AUTO_INCREMENT,
+	 nombreTabla	                   VARCHAR(30) NOT NULL,
+     fechaActualizacion                DATE NOT NULL,
+	 PRIMARY KEY(idRegistro));
+
+DELIMITER /
+CREATE TRIGGER actualizarStock AFTER INSERT ON registroingreso
+FOR EACH ROW 
+BEGIN 
+	SET stock.cantidad = stock.cantidad + registroingreso.cantidad;
+END / 
+DELIMITER ;
+
+DELIMITER /
+CREATE TRIGGER registarEvento AFTER DELETE ON proveedor
+FOR EACH ROW 
+BEGIN 
+	INSERT INTO registroActualizacion (idRegistro, nombreTabla, fechaActualizacion)
+	VALUES (0, 'proveedor', CURRENT_DATE());
+END / 
+DELIMITER ;
+
+CREATE UNIQUE INDEX indexCliente ON cliente (cedCliente) USING BTREE;
+
+CREATE FULLTEXT INDEX modeloCortina ON cortina (tipoCortina);
+
+CREATE INDEX indexProveedor ON proveedor (idProveedor) USING HASH;
+
+CREATE INDEX indexFactura ON stock (cantidad) USING BTREE;
+
+CREATE FULLTEXT INDEX indexAlquiler ON alquiler (fechaAlquiler);
+
 CREATE USER 'jesusro'@'localhost' identified by 'jesus';
 CREATE USER 'romanbel'@'localhost' identified by 'roman';
 CREATE USER 'karvilla'@'localhost' identified by 'karina';
 CREATE USER 'hernanro'@'localhost' identified by 'hernan';
 CREATE USER 'principal'@'localhost' identified by '1234';
-
-
 
 GRANT ALL PRIVILEGES ON sigevac.alquiler TO 'principal'@'localhost' with grant option;
 GRANT ALL PRIVILEGES ON sigevac.clientes TO 'principal'@'localhost' with grant option;
@@ -327,7 +373,6 @@ GRANT delete, insert, select, update ON sigevac.tipocortina TO 'jesusro'@'localh
 GRANT delete, insert, select, update ON sigevac.venta TO 'jesusro'@'localhost' with grant option;
 GRANT delete, insert, select, update ON sigevac.formapago TO 'jesusro'@'localhost' with grant option;
 GRANT execute on procedure sigevac.ventasPorFecha TO 'jesusro'@'localhost' with grant option;
-
 
 GRANT delete, insert, select, update ON sigevac.alquiler TO 'romanbel'@'localhost' with grant option;
 GRANT delete, insert, select, update ON sigevac.clientes TO 'romanbel'@'localhost' with grant option;
@@ -369,53 +414,3 @@ GRANT select ON sigevac.stock TO 'hernanro'@'localhost';
 GRANT select ON sigevac.tipocortina TO 'hernanro'@'localhost';
 GRANT insert, select ON sigevac.venta TO 'hernanro'@'localhost';
 GRANT select ON sigevac.formapago TO 'hernanro'@'localhost';
-
-
-
-create view CATALOGO_PRODUCTOS
-as 
-SELECT C.descripcion as DESCRIPCION, nombreColor as COLOR, materialCortina as MATERIAL
-FROM Cortina C, ColorCortina CO, TipoCortina T
-ORDER BY DESCRIPCION;
-
-create view DETALLES_VENTAS
-AS
-SELECT IdCortina, descripcion, nombreColor, materialCortina, COUNT(CORTINA_IdCortina) as TOTAL_VENTAS
-FROM Cortina , ColorCortina , TipoCortina , detallefactura  
-WHERE CORTINA_IdCortina=IdCortina and TipoCortina_IdTipoTela=IdTipoTela AND ColorCortina_ColorCortina=IdColorCortina
-group by IdCortina;
-
-
-CREATE VIEW TOTAL_STOCK
-AS
-SELECT idCortina AS CODIGO_CORTINA, nombreColor as COLOR, materialCortina AS TIPO , s.cantidad AS TOTAL_EN_STOCK
-FROM ColorCortina , TipoCortina , stock s, cortina c 
-WHERE s.CORTINA_IdCortina=IdCortina and TipoCortina_IdTipoTela=IdTipoTela AND ColorCortina_ColorCortina=IdColorCortina
-group by idCortina;
-
-delimiter /
-create procedure ventasPorFecha(in fechaInicio date, in fechaFinal date, out ventaTotal float)
-begin
-  select sum(d.cantidad*d.precioVenta) into ventaTotal
-  from venta v, factura f, detallefactura d
-  where v.Factura_idFactura =f.idFactura and f.idFactura=d.FACTURA_idFactura and v.fechaVenta between fechaInicio and fechaFinal;
-  end; / 
-delimiter ;
-
-Create Trigger No_Eliminar
-on Cortina For Delete
-as begin
-Print 'No se permite eliminar informacion'
-Rollback transaction
-end
-
-Create Trigger No_Insertar
-on Cortina For insert
-as begin
-Print 'No se permite insertar'
-Rollback transaction
-end
-
-
-      
-      
